@@ -3,110 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Feliz Dia da Mãe</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #fff0f5;
-      font-family: 'Arial Rounded MT Bold', sans-serif;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .envelope {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 280px;
-      height: 180px;
-      background: #ffb6c1;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      transform: translate(-50%, -50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 2;
-      transition: opacity 0.5s ease;
-    }
-
-    .envelope::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: #ff69b4;
-      clip-path: polygon(0 0, 50% 100%, 100% 0);
-    }
-
-    .message {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #fff0f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      text-align: center;
-      opacity: 0;
-      z-index: 1;
-      transition: opacity 0.5s ease;
-    }
-
-    .message h1 {
-      font-size: 22px;
-      color: #d63384;
-      margin-bottom: 10px;
-    }
-
-    .message img {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-      border-radius: 12px;
-    }
-
-    .show-message .envelope {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .show-message .message {
-      opacity: 1;
-    }
-  </style>
+  <title>Austin Stickers </title>
 </head>
 <body>
-  <div class="container" onclick="document.body.classList.add('show-message')">
-    <div class="envelope">
-      <span></span>
+  <h2 style="font-family: Arial; text-align: center; margin-bottom: 20px">
+      Price Information - Stickers Austin 2025
+    </h2>
+
+    <div
+      id="cardsContainer"
+      style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center"
+    ></div>
+
+    <div
+      id="totals"
+      style="
+        max-width: 400px;
+        margin: 30px auto 0;
+        padding: 20px;
+        background: #222;
+        color: white;
+        border-radius: 12px;
+        font-family: Arial;
+        text-align: center;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+      "
+    >
+      <h3>Total (Lowest Prices)</h3>
+      <p id="total" style="font-size: 1.5em; margin: 5px 0">0 €</p>
+      <h4>After Steam Tax (15%)</h4>
+      <p
+        id="totalAfterTax"
+        style="font-size: 1.3em; margin: 5px 0; color: #f39c12"
+      >
+        0 €
+      </p>
     </div>
-    <div class="message">
-      <h1>Feliz Dia da Mãe</h1>
-      <img src="IMG_9640.JPEG" alt="Foto da Mãe">
-    </div>
-  </div>
+
+    <script>
+      const APPID = 730;
+      const CURRENCY = 3;
+      const COUNTRY = "PT";
+      const proxy = "https://corsproxy.io/?";
+
+      const items = [
+        { name: "Sticker | TYLOO (Holo) | Austin 2025", qty: 1 },
+        { name: "Sticker | OG (Holo) | Austin 2025", qty: 2 },
+        { name: "Sticker | TYLOO (Foil) | Austin 2025", qty: 2 },
+        { name: "Sticker | NRG (Holo) | Austin 2025", qty: 2 },
+        { name: "Sticker | Chinggis Warriors (Foil) | Austin 2025", qty: 2 },
+      ];
+
+      let totalPrice = 0;
+
+      async function fetchData(item) {
+        const url = `${proxy}https://steamcommunity.com/market/priceoverview/?country=${COUNTRY}&currency=${CURRENCY}&appid=${APPID}&market_hash_name=${encodeURIComponent(
+          item.name
+        )}`;
+
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+
+          if (data.success) {
+            const numericPrice = parseFloat(
+              data.lowest_price.replace("€", "").replace(",", ".").trim()
+            );
+            const totalItemPrice = numericPrice * item.qty;
+            totalPrice += totalItemPrice;
+
+            document.getElementById("cardsContainer").innerHTML += `
+          <div style="background: white; border-radius: 12px; padding: 15px; width: 250px; font-family: Arial; box-shadow: 0px 4px 12px rgba(0,0,0,0.1);">
+            <h3 style="font-size: 1em; color: #333; margin-bottom: 10px;">${
+              item.name
+            }</h3>
+            <p><strong>Quantity:</strong> ${item.qty}</p>
+            <p><strong>Lowest Price:</strong> ${data.lowest_price}</p>
+            <p><strong>Total Price:</strong> ${totalItemPrice.toFixed(2)} €</p>
+          </div>
+        `;
+
+            document.getElementById("total").innerText = `${totalPrice.toFixed(
+              2
+            )} €`;
+            document.getElementById("totalAfterTax").innerText = `${(
+              totalPrice * 0.85
+            ).toFixed(2)} €`;
+          } else {
+            document.getElementById("cardsContainer").innerHTML += `
+          <div style="background: #ffdddd; border-radius: 12px; padding: 15px; width: 250px; font-family: Arial; box-shadow: 0px 4px 12px rgba(0,0,0,0.1);">
+            <h3 style="font-size: 1em; color: #333; margin-bottom: 10px;">${item.name}</h3>
+            <p>❌ Failed to fetch</p>
+          </div>
+        `;
+          }
+        } catch (error) {
+          document.getElementById("cardsContainer").innerHTML += `
+        <div style="background: #ffdddd; border-radius: 12px; padding: 15px; width: 250px; font-family: Arial; box-shadow: 0px 4px 12px rgba(0,0,0,0.1);">
+          <h3 style="font-size: 1em; color: #333; margin-bottom: 10px;">${item.name}</h3>
+          <p>⚠️ Error fetching</p>
+        </div>
+      `;
+        }
+      }
+
+      items.forEach(fetchData);
+    </script>
 </body>
 </html>
