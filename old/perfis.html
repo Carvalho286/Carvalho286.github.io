@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comparativo de Inventários</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #13141c, #1f1f2e);
+        color: #f4f4f8;
+        min-height: 100vh;
+      }
+
+      nav {
+        background: #1e1e2f;
+        color: white;
+        padding: 15px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      nav h1 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 1px;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li {
+        display: inline;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        transition: color 0.2s ease-in-out;
+      }
+
+      nav ul li a:hover {
+        color: #00d4ff;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px 40px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .profiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+      }
+
+      .profile-card {
+        background: rgba(30, 32, 46, 0.85);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(4px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .profile-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.35), rgba(123, 67, 255, 0.25));
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+      }
+
+      .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .profile-header h3 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .profile-header a {
+        color: #00d4ff;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .status {
+        font-size: 14px;
+        color: #c8c8d6;
+        margin-bottom: 15px;
+      }
+
+      .metrics {
+        display: grid;
+        gap: 12px;
+      }
+
+      .metric {
+        background: rgba(12, 13, 24, 0.55);
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+      }
+
+      .metric strong {
+        color: #00f0ff;
+        font-size: 16px;
+      }
+
+      .top-items {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .top-items li {
+        background: rgba(8, 10, 20, 0.5);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .top-items li span {
+        display: block;
+        color: #9bd8ff;
+        font-size: 13px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .disclaimer {
+        margin: 40px auto 0;
+        max-width: 680px;
+        padding: 15px 20px;
+        font-size: 0.9em;
+        color: #ccc;
+        background: #1e1e2f;
+        border-left: 4px solid #00d4ff;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      @media (max-width: 600px) {
+        nav {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .profile-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <h1>SkinPeek</h1>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="finder.html">Finder</a></li>
+        <li><a href="inventory.html">Inventory</a></li>
+        <li><a href="perfis.html">Perfis</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h2>Comparação de Inventários</h2>
+      <p style="text-align: center; color: #c4c4d8; margin-bottom: 25px">
+        Analisamos automaticamente os inventários CS2 e estimamos o valor total com base no preço mínimo do mercado Steam.
+      </p>
+
+      <div id="profiles" class="profiles"></div>
+
+      <div class="disclaimer">
+        ⚠️ Os valores exibidos são estimativas baseadas no preço mínimo atual do mercado. Pode haver diferenças devido a variações de preço, disponibilidade ou itens não comercializáveis.
+      </div>
+    </div>
+
+    <script>
+      const proxy = "https://corsproxy.io/?";
+      const marketAppId = 730;
+      const currency = 3; // EUR
+      const country = "PT";
+
+      const profiles = [
+        {
+          label: "K0baCK (Eu)",
+          vanity: "K0baCK",
+          profileUrl: "https://steamcommunity.com/id/K0baCK"
+        },
+        {
+          label: "hellmast3r",
+          vanity: "hellmast3r",
+          profileUrl: "https://steamcommunity.com/id/hellmast3r"
+        }
+      ];
+
+      const profilesContainer = document.getElementById("profiles");
+      const priceCache = new Map();
+
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("pt-PT", {
+          style: "currency",
+          currency: "EUR"
+        }).format(value);
+      }
+
+      function parsePriceString(value) {
+        if (!value) return 0;
+        const normalized = value
+          .replace(/[^0-9.,-]/g, "")
+          .replace(/\.(?=\d{3}(?:\D|$))/g, "")
+          .replace(",", ".");
+        return parseFloat(normalized) || 0;
+      }
+
+      async function resolveVanity(vanity) {
+        const url = `${proxy}https://steamcommunity.com/id/${vanity}?xml=1`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Falha ao resolver vanity URL");
+        }
+        const text = await response.text();
+        const match = text.match(/<steamID64>(\d+)<\\/steamID64>/);
+        return match ? match[1] : null;
+      }
+
+      async function fetchInventory(steamId) {
+        const url = `${proxy}https://steamcommunity.com/inventory/${steamId}/${marketAppId}/2?l=english&count=5000`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Erro ao obter inventário");
+        }
+        return response.json();
+      }
+
+      async function fetchItemPrice(name) {
+        if (priceCache.has(name)) {
+          return priceCache.get(name);
+        }
+        const url = `${proxy}https://steamcommunity.com/market/priceoverview/?country=${country}&currency=${currency}&appid=${marketAppId}&market_hash_name=${encodeURIComponent(
+          name
+        )}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Falha ao carregar preço");
+        }
+        const data = await response.json();
+        let price = 0;
+        if (data.success) {
+          price = parsePriceString(data.lowest_price || data.median_price);
+        }
+        priceCache.set(name, price);
+        return price;
+      }
+
+      function mapInventoryItems(inventory) {
+        if (!inventory || !Array.isArray(inventory.assets)) {
+          return [];
+        }
+
+        const descriptions = new Map();
+        (inventory.descriptions || []).forEach((desc) => {
+          const key = `${desc.classid}_${desc.instanceid || "0"}`;
+          descriptions.set(key, desc);
+        });
+
+        const aggregated = new Map();
+
+        inventory.assets.forEach((asset) => {
+          const key = `${asset.classid}_${asset.instanceid || "0"}`;
+          let description = descriptions.get(key);
+          if (!description) {
+            description = descriptions.get(`${asset.classid}_0`);
+          }
+          if (!description || description.marketable !== 1) {
+            return;
+          }
+          const name = description.market_hash_name;
+          const quantity = parseInt(asset.amount || "1", 10);
+          const entry = aggregated.get(name) || { qty: 0 };
+          aggregated.set(name, {
+            qty: entry.qty + quantity,
+            icon: description.icon_url,
+            type: description.type || ""
+          });
+        });
+
+        return Array.from(aggregated.entries()).map(([name, info]) => ({
+          name,
+          qty: info.qty,
+          icon: info.icon,
+          type: info.type
+        }));
+      }
+
+      async function enrichItemsWithPrices(items) {
+        const enriched = [];
+        for (const item of items) {
+          try {
+            const unitPrice = await fetchItemPrice(item.name);
+            enriched.push({
+              ...item,
+              unitPrice,
+              totalPrice: unitPrice * item.qty
+            });
+          } catch (error) {
+            enriched.push({
+              ...item,
+              unitPrice: 0,
+              totalPrice: 0,
+              error: true
+            });
+          }
+        }
+        return enriched;
+      }
+
+      function renderTopItems(listElement, items) {
+        if (!items.length) {
+          listElement.innerHTML = "<li>Nenhum item comercializável encontrado.</li>";
+          return;
+        }
+
+        const topItems = items
+          .filter((item) => item.unitPrice > 0)
+          .sort((a, b) => b.totalPrice - a.totalPrice)
+          .slice(0, 5);
+
+        if (!topItems.length) {
+          listElement.innerHTML = "<li>Sem preços disponíveis para os itens.</li>";
+          return;
+        }
+
+        listElement.innerHTML = topItems
+          .map(
+            (item) => `
+              <li>
+                <strong>${item.name}</strong>
+                <span>Quantidade: ${item.qty} · Preço unitário: ${formatCurrency(
+              item.unitPrice
+            )}</span>
+                <span>Total estimado: ${formatCurrency(item.totalPrice)}</span>
+              </li>
+            `
+          )
+          .join("");
+      }
+
+      async function renderProfile(profile) {
+        const card = document.createElement("div");
+        card.className = "profile-card";
+        card.innerHTML = `
+          <div class="profile-header">
+            <h3>${profile.label}</h3>
+            <a href="${profile.profileUrl}" target="_blank" rel="noopener">Ver perfil</a>
+          </div>
+          <p class="status">Carregando inventário...</p>
+          <div class="metrics hidden">
+            <div class="metric">
+              Itens contabilizados
+              <strong class="count">0</strong>
+            </div>
+            <div class="metric">
+              Valor total estimado
+              <strong class="total">0 €</strong>
+            </div>
+            <div class="metric">
+              Após taxa Steam (15%)
+              <strong class="after-tax">0 €</strong>
+            </div>
+            <div>
+              <h4 style="margin: 18px 0 10px; font-size: 16px; color: #cbd6ff;">
+                Principais itens
+              </h4>
+              <ul class="top-items"></ul>
+            </div>
+          </div>
+        `;
+        profilesContainer.appendChild(card);
+
+        const statusElement = card.querySelector(".status");
+        const metricsElement = card.querySelector(".metrics");
+        const countElement = card.querySelector(".count");
+        const totalElement = card.querySelector(".total");
+        const afterTaxElement = card.querySelector(".after-tax");
+        const topItemsElement = card.querySelector(".top-items");
+
+        try {
+          const steamId = profile.steamId || (profile.vanity ? await resolveVanity(profile.vanity) : null);
+          if (!steamId) {
+            throw new Error("Não foi possível determinar o SteamID");
+          }
+
+          statusElement.textContent = "Inventário encontrado. Calculando preços...";
+
+          const inventory = await fetchInventory(steamId);
+          const mappedItems = mapInventoryItems(inventory);
+          countElement.textContent = mappedItems.reduce((acc, item) => acc + item.qty, 0);
+
+          const pricedItems = await enrichItemsWithPrices(mappedItems);
+          const totalValue = pricedItems.reduce((acc, item) => acc + item.totalPrice, 0);
+
+          totalElement.textContent = formatCurrency(totalValue);
+          afterTaxElement.textContent = formatCurrency(totalValue * 0.85);
+
+          renderTopItems(topItemsElement, pricedItems);
+
+          statusElement.classList.add("hidden");
+          metricsElement.classList.remove("hidden");
+        } catch (error) {
+          console.error(`Erro ao processar ${profile.label}:`, error);
+          statusElement.textContent = "Não foi possível calcular o valor deste inventário.";
+        }
+      }
+
+      (async function init() {
+        for (const profile of profiles) {
+          await renderProfile(profile);
+        }
+      })();
+    </script>
+  </body>
+</html>
