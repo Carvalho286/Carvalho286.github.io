@@ -1,0 +1,1400 @@
+:root {
+  --gold: #cea052;
+  --bg: #faf7f1;
+  --dark: #111;
+  --text: #222;
+  --light: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  width: min(1120px, 90%);
+  margin: 0 auto;
+}
+
+/* --- TOPBAR --- */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: all 0.3s ease;
+  z-index: 100;
+  background: transparent;
+}
+
+.topbar.scrolled {
+  background: #faf8f4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: min(1300px, 95%);
+  margin: 0 auto;
+  min-height: 72px;
+  padding-left: 60px; /* move o logo mais para a esquerda */
+  column-gap: 2.5rem; /* espaço entre o menu e o botão de reserva */
+}
+
+/* LOGO */
+.logo {
+  font-size: 1.7rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* MENU */
+nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2.5rem; /* espaçamento equilibrado */
+}
+
+nav a {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05rem;
+  transition: color 0.3s ease;
+}
+
+/* BOTÃO + SWITCH DE IDIOMA */
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: end; /* garante que fica mesmo à direita */
+}
+
+.btn-small {
+  background: #5a6350;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  border: none;
+  transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+/* ESTADO INICIAL (TOPO TRANSPARENTE) */
+.topbar:not(.scrolled) .logo,
+.topbar:not(.scrolled) nav a,
+.topbar:not(.scrolled) .lang-switch span,
+.topbar:not(.scrolled) .lang-switch button {
+  color: #ffffff;
+}
+
+.topbar:not(.scrolled) .btn-small {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ESTADO COM FUNDO */
+.topbar.scrolled .logo,
+.topbar.scrolled nav a,
+.topbar.scrolled .lang-switch button {
+  color: #5a6350;
+}
+
+.topbar.scrolled .btn-small {
+  background: #5a6350;
+  color: #ffffff;
+}
+
+/* --- HERO COM VÍDEO DE FUNDO --- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* vídeo */
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* garante que preenche o ecrã todo */
+  z-index: 0;
+}
+
+/* overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.3) 60%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  z-index: 1;
+}
+
+/* conteúdo */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  text-align: center;
+  max-width: 680px;
+  padding: 0 20px;
+}
+
+.hero-subtitle {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.hero-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.hero-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero .btn-primary,
+.hero .btn-secondary {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.hero .btn-primary {
+  background: #5a6350;
+  color: #fff;
+}
+
+.hero .btn-secondary {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.hero .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Sections */
+.section {
+  padding: 5.5rem 0;
+}
+
+.section-light {
+  background: #fff;
+}
+
+.section-dark {
+  background: #171717;
+}
+
+.section .section-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 2.1rem;
+  margin-bottom: 1rem;
+}
+
+.section-title.light {
+  color: #fff;
+}
+
+.section-text {
+  max-width: 680px;
+  line-height: 1.7;
+  color: #4b4b4b;
+}
+
+.section-text.light {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.narrow {
+  text-align: center;
+}
+
+.section-image-left .split {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.split-text {
+  flex: 1;
+}
+
+.split-media {
+  flex: 1;
+}
+
+.placeholder-img {
+  background: rgba(206, 160, 82, 0.3);
+  border: 1px dashed rgba(206, 160, 82, 0.6);
+  border-radius: 12px;
+  min-height: 240px;
+}
+
+/* --- ESSÊNCIA --- */
+.essencia-section {
+  background: #faf8f4;
+  padding: 9rem 0;
+  scroll-margin-top: -50px;
+  font-family: "Crimson Pro", serif;
+}
+
+.essencia-container {
+  width: min(1150px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.essencia-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-top: 5px;
+}
+
+.essencia-img {
+  width: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.essencia-gallery img {
+  max-height: calc(50vh - 10px); /* garante que cabem mesmo num ecrã 1080p */
+}
+
+/* Coluna de texto */
+.essencia-text {
+  color: #5a6350;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.essencia-title {
+  color: #c7a045;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+}
+
+.essencia-text p {
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  color: #a19898;
+}
+
+.essencia-quote {
+  font-style: italic;
+  color: #5a6350;
+  margin: 1.5rem 0 2rem;
+}
+
+#essencia-quote {
+  font-style: italic;
+  color: #5a6350;
+  margin: 1.5rem 0 2rem;
+}
+
+/* Ícones */
+.essencia-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  color: #a19898;
+}
+
+.icon-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.icon-item img {
+  width: 32px;
+  height: 32px;
+  opacity: 0.75;
+  background-color: #c4c1c1;
+  padding: 6px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.icon-item p {
+  margin: 0;
+  font-size: 1rem;
+  color: #a19898;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .essencia-container {
+    grid-template-columns: 1fr;
+  }
+  .essencia-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- EXPERIÊNCIAS --- */
+.experiencias-section {
+  background: #faf8f4;
+  padding: 8rem 0;
+  font-family: "Crimson Pro", serif;
+}
+
+.container-experiencias {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+}
+
+.experiencias-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.experiencias-title {
+  font-size: 2.8rem;
+  font-weight: 400;
+  font-style: italic;
+  color: #5a6350;
+  margin-bottom: 0.5rem;
+}
+
+.experiencias-subtitle {
+  font-size: 1.1rem;
+  color: #c7a045;
+  letter-spacing: 0.04em;
+}
+
+/* Bloco */
+.experiencia-item {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 6rem;
+}
+
+.experiencia-item.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Imagem */
+.experiencia-media {
+  position: relative;
+  flex: 1;
+}
+
+.experiencia-media img {
+  width: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Número */
+.exp-num {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #c7a045;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* Conteúdo */
+.experiencia-content {
+  flex: 1;
+}
+
+.exp-tag {
+  display: flex; /* garante alinhamento vertical */
+  align-items: center;
+  gap: 0.6rem; /* espaço entre o ícone e o texto */
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c7a045;
+  margin-bottom: 0.8rem;
+}
+
+.exp-icon {
+  width: 32px;
+  height: 32px;
+  opacity: 0.75;
+  background-color: rgba(122, 132, 104, 0.1);
+  padding: 6px;
+  border-radius: 10px;
+  display: flex; /* centra o ícone dentro do quadrado */
+  align-items: center;
+  justify-content: center;
+}
+
+.exp-title {
+  font-size: 1.8rem;
+  color: #5a6350;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.exp-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #ababab;
+  margin-bottom: 1.2rem;
+}
+
+.exp-quote {
+  font-style: italic;
+  color: #5a6350;
+  margin: 1.5rem 0 2rem;
+  border-left: 2px solid #c7a045;
+  padding-left: 12px;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .experiencia-item,
+  .experiencia-item.reverse {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .experiencia-content {
+    margin-top: 1.5rem;
+  }
+}
+
+/* --- QUARTOS --- */
+.quartos-section {
+  background: #faf8f4;
+  padding: 8rem 0;
+}
+
+.container-quartos {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quartos-title {
+  font-family: "Crimson Pro", serif;
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: #5a6350;
+  margin-bottom: 1rem;
+}
+
+.quartos-subtitle {
+  font-family: "Crimson Pro", serif;
+  color: #777;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 4rem;
+  line-height: 1.7;
+}
+
+/* GRID DE QUARTOS */
+.quartos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2.5rem;
+}
+
+/* CARD */
+.quarto-card {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quarto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.quarto-img img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+
+/* CONTEÚDO */
+.quarto-info {
+  padding: 1.8rem;
+}
+
+.quarto-tag {
+  font-family: "Crimson Pro", serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: #c9a961;
+  margin-bottom: 0.4rem;
+}
+
+.quarto-title {
+  font-family: "Crimson Pro", serif;
+  font-size: 1.5rem;
+  color: #5a6350;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.quarto-text {
+  font-family: "Crimson Pro", serif;
+  color: #ababab;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.quarto-meta {
+  font-family: "Crimson Pro", serif;
+  font-size: 0.9rem;
+  color: #ababab;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .quarto-img img {
+    height: 200px;
+  }
+
+  .quarto-meta {
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* --- MODAL DE QUARTO --- */
+.quarto-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+.quarto-modal.hidden {
+  display: none;
+}
+
+.quarto-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  z-index: -1;
+}
+
+.quarto-content {
+  background: #faf8f4;
+  margin: 5rem auto;
+  border-radius: 6px;
+  width: min(1200px, 95%);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fechar botão */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.4rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #5a6350;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+.close-btn:hover {
+  opacity: 1;
+}
+
+/* Header */
+.quarto-hero {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+.quarto-header-text {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.quarto-header-text .quarto-tag {
+  font-size: 0.95rem;
+  color: #c7a045;
+  text-transform: uppercase;
+}
+
+.quarto-header-text .quarto-title {
+  font-family: "Crimson Pro", serif;
+  color: #fff;
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+
+/* Body */
+.quarto-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  padding: 3rem;
+}
+
+.quarto-main h3 {
+  font-family: "Crimson Pro", serif;
+  color: #5a6350;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.quarto-description {
+  font-family: "Crimson Pro", serif;
+  color: #ababab;
+  line-height: 1.7;
+  margin-bottom: 1.4rem;
+}
+
+.quarto-quote {
+  color: #5a6350;
+  margin: 1.5rem 0;
+  border-left: 2px solid #c7a045;
+  padding-left: 12px;
+}
+
+/* Galeria */
+.quarto-gallery {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quarto-gallery img {
+  height: 240px;
+  flex: 1 1 45%;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #f4f4f4;
+  transition: transform 0.3s ease;
+}
+
+.quarto-gallery img.portrait {
+  object-fit: contain; /* corrige verticais */
+  height: 280px; /* ligeiramente maior para compensar */
+}
+
+.quarto-gallery img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Reserva */
+.quarto-reserva {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem 2rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quarto-reserva p {
+  font-size: 0.95rem;
+  color: #5a6350;
+}
+
+.btn-reserva {
+  background: #5a6350;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+.btn-reserva:hover {
+  background: #4a5442;
+}
+
+/* Sidebar */
+.quarto-card {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.quarto-card h4 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #5a6350;
+}
+
+.quarto-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quarto-card li {
+  border-bottom: 1px solid #eee;
+  padding: 0.6rem 0;
+  font-family: "Crimson Pro", serif;
+  font-size: 0.95rem;
+  color: #6b6b6b;
+}
+
+.quarto-card li strong {
+  color: #5a6350;
+}
+
+/* Ícones */
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #5a6350;
+}
+
+.icon img {
+  width: 32px;
+  height: 32px;
+  opacity: 0.75;
+  background-color: rgba(122, 132, 104, 0.1);
+  padding: 6px;
+  border-radius: 10px;
+  display: flex; /* centra o ícone dentro do quadrado */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .quarto-body {
+    grid-template-columns: 1fr;
+  }
+  .quarto-hero {
+    height: 280px;
+  }
+}
+
+/* --- Forçar .quarto-meta ao fundo apenas na grelha principal --- */
+#quartos .quarto-info {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#quartos .quarto-text {
+  flex-grow: 1; /* ocupa o espaço livre e empurra o meta para baixo */
+}
+
+#quartos .quarto-meta {
+  margin-top: auto; /* fixa o meta ao fundo */
+}
+
+/* --- EVENTOS --- */
+.eventos-section {
+  background: #faf8f4;
+  padding: 8rem 0;
+  font-family: "Crimson Pro", serif;
+  color: #5a6350;
+}
+
+.container-eventos {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* TEXTO PRINCIPAL */
+.eventos-subtitle {
+  color: #c7a045;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.eventos-title {
+  font-family: "Crimson Pro", serif;
+  font-size: 2.6rem;
+  color: #5a6350;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.eventos-intro {
+  color: #ababab;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  max-width: 550px;
+}
+
+/* CARTÕES DE EVENTO */
+.eventos-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.evento-card {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: grid;
+  grid-template-columns: 50px 1fr auto;
+  align-items: start;
+  gap: 1.2rem;
+  padding: 1.5rem 1.8rem;
+  position: relative;
+}
+
+.evento-icon {
+  background: #e7e6e3;
+  width: 48px;
+  height: 48px;
+  border-radius: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evento-icon img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+}
+
+.evento-info h3 {
+  font-family: "Crimson Pro", serif;
+  font-size: 1.2rem;
+  color: #5a6350;
+  margin-bottom: 0.4rem;
+}
+
+.evento-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.6;
+  color: #ababab;
+  font-size: 0.95rem;
+}
+
+.evento-extra {
+  font-size: 0.9rem;
+  color: #c7a045;
+  font-weight: 500;
+  align-self: start;
+}
+
+.evento-extra.personalizado {
+  color: #5a6350;
+  font-style: italic;
+}
+
+/* BOTÃO */
+.btn-eventos {
+  display: inline-block;
+  background: #5a6350;
+  color: #fff;
+  padding: 0.9rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.btn-eventos:hover {
+  background: #4a5442;
+}
+
+/* IMAGEM */
+.eventos-right img {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  object-fit: cover;
+}
+
+.evento-info ul li::before {
+  content: " •";
+  color: #c7a045; /* dourado suave */
+  margin-right: 6px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .container-eventos {
+    grid-template-columns: 1fr;
+  }
+
+  .eventos-right {
+    order: -1;
+    margin-bottom: 2rem;
+  }
+
+  .eventos-intro {
+    max-width: 100%;
+  }
+}
+
+/* Footer */
+.footer {
+  background: #111;
+  color: #ddd;
+  padding: 2.8rem 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Simple pages */
+.simple-page .simple-main {
+  margin-top: 90px;
+  width: min(700px, 90%);
+  margin-inline: auto;
+  padding-bottom: 4rem;
+}
+
+/* Responsive */
+@media (max-width: 880px) {
+  .nav nav {
+    display: none; /* para simplificar — podes fazer menu burguer depois */
+  }
+  .hero {
+    text-align: left;
+  }
+  .section-image-left .split {
+    flex-direction: column;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .modal-content {
+    padding: 1.8rem 1.4rem 1.6rem;
+  }
+}
+
+/* --- CONTACTOS SPLIT PAGE --- */
+.contactos-section {
+  background: #faf8f4;
+  padding: 8rem 0;
+  font-family: "Crimson Pro", serif;
+  color: #5a6350;
+}
+
+.contactos-container {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2.5rem;
+  align-items: stretch;
+}
+
+/* COLUNA ESQUERDA */
+.contactos-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* CARTÕES */
+.card {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem 2rem;
+}
+
+/* Contact Info */
+.contact-item {
+  display: flex;
+  align-items: center; /* centra verticalmente ícone e texto */
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.contact-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Ícone com círculo perfeito */
+.contact-icon {
+  width: 42px;
+  height: 42px;
+  background: #e7e6e3;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* impede que o ícone encolha */
+  box-sizing: border-box;
+}
+
+.contact-icon img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+}
+
+/* Texto ao lado */
+.contact-item h3 {
+  font-family: "Crimson Pro", serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.contact-item p {
+  font-family: "Crimson Pro", serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Caixa Social */
+/* --- Caixa Social --- */
+.contactos-social {
+  display: flex;
+  flex-direction: column; /* empilha título e ícones */
+  align-items: flex-start;
+  text-align: left;
+  gap: 1.4rem;
+  padding: 2.2rem 2rem;
+}
+
+.contactos-social h3 {
+  font-family: "Crimson Pro", serif;
+  font-size: 1.2rem;
+  color: #5a6350;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Ícones sociais */
+.social-icons {
+  display: flex;
+  align-items: flex-start;
+  justify-content: left;
+  gap: 1.4rem;
+}
+
+.social-icon img {
+  width: 38px; /* ícone maior */
+  height: 38px;
+  background: #e7e6e3;
+  padding: 10px;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.social-icon img:hover {
+  background: #c7a045;
+  transform: scale(1.1);
+}
+
+/* Mapa */
+.contactos-map {
+  padding: 0;
+}
+
+.contactos-map iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+/* Página de contactos — topbar sempre clara */
+body.contactos-page .topbar {
+  background: #faf8f4 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.contactos-page .topbar .logo,
+body.contactos-page .topbar nav a,
+body.contactos-page .topbar span,
+body.contactos-page .topbar .lang-switch button {
+  color: #5a6350 !important;
+}
+
+body.contactos-page .topbar .btn-small {
+  background: #5a6350 !important;
+  color: #fff !important;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .contactos-container {
+    grid-template-columns: 1fr;
+  }
+
+  .contactos-map {
+    height: 400px;
+  }
+
+  .contactos-social {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+/* --- FOOTER --- */
+.footer {
+  background: #f3f1ec;
+  color: #5a6350;
+  padding: 4rem 0 2rem;
+  font-family: "Crimson Pro", serif;
+}
+
+.footer-container {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 3rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 2rem;
+}
+
+/* --- BRAND --- */
+.footer-brand h3 {
+  font-family: "Crimson Pro", serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #5a6350;
+}
+
+.footer-brand p {
+  color: #6b6b6b;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+  max-width: 340px;
+}
+
+/* SOCIAL ICONS */
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-socials a img {
+  width: 34px;
+  height: 34px;
+  background: #e7e6e3;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.footer-socials a img:hover {
+  background: #c7a045;
+  transform: scale(1.1);
+}
+
+/* --- LINKS --- */
+.footer-links h4,
+.footer-contact h4 {
+  font-family: "Crimson Pro", serif;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-links ul,
+.footer-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 2;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #5a6350;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #c7a045;
+}
+
+/* --- CONTACT --- */
+.footer-contact li {
+  font-size: 0.95rem;
+  color: #6b6b6b;
+}
+
+.footer-contact a {
+  color: #5a6350;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+  color: #c7a045;
+}
+
+/* --- BOTTOM --- */
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #777;
+  line-height: 1.6;
+}
+
+.footer-bottom .credits {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-brand p {
+    margin: 0 auto 1.5rem;
+  }
+
+  .footer-socials {
+    justify-content: center;
+  }
+}
