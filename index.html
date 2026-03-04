@@ -25,19 +25,30 @@
         padding: 20px 40px;
         background: #1a1a1a;
         border-bottom: 2px solid #2e7d32;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        text-align: center;
       }
 
       header h1 {
         font-size: 22px;
-        font-weight: 600;
+        margin-bottom: 5px;
       }
 
-      header span {
+      header p {
         font-size: 14px;
         opacity: 0.7;
+      }
+
+      .instructions {
+        background: #181818;
+        padding: 15px 40px;
+        border-bottom: 1px solid #2e7d32;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .instructions ul {
+        margin-top: 8px;
+        padding-left: 20px;
       }
 
       .iframe-container {
@@ -62,10 +73,8 @@
       }
 
       @media (max-width: 768px) {
-        header {
-          flex-direction: column;
-          gap: 5px;
-          text-align: center;
+        .instructions {
+          padding: 15px 20px;
         }
       }
     </style>
@@ -74,8 +83,19 @@
   <body>
     <header>
       <h1>D'Italia Ristorante – App Mockups</h1>
-      <span>Visualização do design da aplicação</span>
+      <p>Visualização interativa do design da aplicação</p>
     </header>
+
+    <div class="instructions">
+      <strong>Como visualizar e navegar:</strong>
+      <ul>
+        <li>Use o scroll do rato para mover verticalmente.</li>
+        <li>Clique e arraste para mover lateralmente.</li>
+        <li>Use a roda do rato para fazer zoom in/out.</li>
+        <li>Em dispositivos táteis, use dois dedos para fazer zoom.</li>
+        <li>Pode colocar em ecrã inteiro usando o botão do Figma (canto superior direito).</li>
+      </ul>
+    </div>
 
     <div class="iframe-container">
       <iframe 
@@ -85,7 +105,7 @@
     </div>
 
     <footer>
-      Caso não consiga visualizar corretamente, por favor abra num computador.
+      Para melhor experiência, recomenda-se visualizar num computador ou tablet.
     </footer>
   </body>
 </html>
